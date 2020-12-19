@@ -7,3 +7,4 @@ __pycache__/sss.cpython-38.pyc
 new.py
 test.py
 watermark.png
+*.pyc
