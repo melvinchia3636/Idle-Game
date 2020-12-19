@@ -1,2 +1,3 @@
 *.pyc
 game.json
+__pycache__/sss.cpython-38.pyc
