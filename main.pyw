@@ -18,6 +18,7 @@ def button_on_leave(e): #clickme detection
 
 if os.path.exists('game.json'):
   data = json.load(open('game.json', 'r'))
+
 else:
   data =  {
       'balance': 0,
@@ -93,8 +94,8 @@ def upgrade(selected):
     data['item'][selected]['amount']+=1
     data['item'][selected]['cost'] +=int(data['rps']//4*10)
     data['rps']+=data['rps']
-    sum(item_button, ())[data['item'][selected]['button']].config(text=selected+'\n'+str(ShortScale(data['item'][selected]['amount']))+'\n'+str(ShortScale(data['item'][selected]['cost']))+' root')
-    sum(item_button, ())[data['item'][selected]['button']].update()
+    item_button[data['item'][selected]['button']].config(text=selected+'\n'+str(ShortScale(data['item'][selected]['amount']))+'\n'+str(ShortScale(data['item'][selected]['cost']))+' root')
+    item_button[data['item'][selected]['button']].update()
     now.set(current_money())
     num.update()
     mpsnum = str(ShortScale(int(data['rps'])))
@@ -103,8 +104,7 @@ def upgrade(selected):
 
 buttonFrame = [[Frame(root, bg='#01FF70', width=314, height=128) for j in range(4)] for i in range(6)]
 item_button = [Button(root, text=i+'\n'+str(ShortScale(data['item'][i]['amount']))+'\n'+str(ShortScale(data['item'][i]['cost']))+' root', command=partial(upgrade, i), font=buttonfont, width=20, padx=1,fg='#01FF70', bg='#111111', activebackground='#363636', activeforeground='#01FF70', relief=FLAT) for i in data['item'].keys()]
-for i in range(len(data)): data['item'][list(data['item'].keys())[i]]['button'] = i
-item_button = list(zip_longest(*[item_button[i:i+6] for i in range(0, len(item_button), 6)]))
+for i in range(len(data['item'])): data['item'][list(data['item'].keys())[i]]['button'] = i
 
 def addlol():
   now.set(current_money())
@@ -136,7 +136,9 @@ num.grid(row=0, column=0, columnspan=4, pady=20)
 for i in range(6):
   for j in range(4):
     buttonFrame[i][j].grid(row=i+1, column=j, padx=84, pady=10)
-    if j < len(item_button[i]) and item_button[i][j]: item_button[i][j].grid(row=i+1, column=j, padx=84, pady=10)
+
+for i in range(len(item_button)):
+  item_button[i].grid(row=i%6+1, column=i//6, padx=84, pady=10)
 
 mps.grid(row=12, column=0, pady=10, columnspan=4)
 
